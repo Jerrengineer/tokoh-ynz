@@ -155,10 +155,10 @@ if ($is_admin && isset($_GET['edit'])) {
     </div>
 <?php endif; ?>
 
-<div class="grid grid-cols-3">
+<div class="grid grid-cols-3 layout-split">
     <!-- Form Panel (Admin Add/Edit Form) -->
     <?php if ($is_admin): ?>
-        <div class="card" style="grid-column: span 1; align-self: start;">
+        <div class="card layout-form-card" style="align-self: start;">
             <div class="card-header">
                 <h3 class="card-title"><?= $edit_product ? 'Edit Produk' : 'Tambah Produk Baru' ?></h3>
             </div>
@@ -194,7 +194,7 @@ if ($is_admin && isset($_GET['edit'])) {
                         </select>
                     </div>
 
-                    <div class="grid grid-cols-2" style="gap: 1rem;">
+                    <div class="grid grid-cols-2 form-row-compact" style="gap: 1rem;">
                         <div class="form-group">
                             <label for="cost_price">Harga Modal</label>
                             <input type="number" id="cost_price" name="cost_price" class="form-control" 
@@ -209,7 +209,7 @@ if ($is_admin && isset($_GET['edit'])) {
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-2" style="gap: 1rem;">
+                    <div class="grid grid-cols-2 form-row-compact" style="gap: 1rem;">
                         <div class="form-group">
                             <label for="stock">Stok Awal</label>
                             <input type="number" id="stock" name="stock" class="form-control" 
@@ -224,7 +224,7 @@ if ($is_admin && isset($_GET['edit'])) {
                         </div>
                     </div>
                     
-                    <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem;">
+                    <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                         <button type="submit" name="<?= $edit_product ? 'edit_product' : 'add_product' ?>" class="btn btn-primary" style="flex-grow: 1;">
                             <?= $edit_product ? 'Perbarui Produk' : 'Simpan Produk' ?>
                         </button>
@@ -238,7 +238,7 @@ if ($is_admin && isset($_GET['edit'])) {
     <?php endif; ?>
     
     <!-- Table List Panel -->
-    <div class="card" style="grid-column: span <?= $is_admin ? '2' : '3' ?>;">
+    <div class="card layout-table-card <?= $is_admin ? '' : 'full-width' ?>">
         <div class="card-header">
             <h3 class="card-title">Daftar Produk & Stok</h3>
             <?php if ($stock_filter === 'low_stock'): ?>
@@ -247,19 +247,19 @@ if ($is_admin && isset($_GET['edit'])) {
         </div>
         <div class="card-body">
             <!-- Filter Form -->
-            <form action="products.php" method="GET" style="margin-bottom: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-end;">
+            <form action="products.php" method="GET" class="filter-form">
                 <?php if ($stock_filter === 'low_stock'): ?>
                     <input type="hidden" name="filter" value="low_stock">
                 <?php endif; ?>
                 
-                <div class="form-group" style="margin-bottom: 0; flex-grow: 1; min-width: 200px;">
-                    <label for="search" style="font-size: 0.75rem;">Cari Produk</label>
+                <div class="filter-group filter-grow">
+                    <label for="search" class="filter-label">Cari Produk</label>
                     <input type="text" id="search" name="search" class="form-control" 
                            placeholder="Ketik kode atau nama produk..." value="<?= $search ?>">
                 </div>
                 
-                <div class="form-group" style="margin-bottom: 0; width: 180px;">
-                    <label for="category" style="font-size: 0.75rem;">Kategori</label>
+                <div class="filter-group">
+                    <label for="category" class="filter-label">Kategori</label>
                     <select id="category" name="category" class="form-control">
                         <option value="0">Semua Kategori</option>
                         <?php foreach ($categories as $cat): ?>
@@ -270,7 +270,7 @@ if ($is_admin && isset($_GET['edit'])) {
                     </select>
                 </div>
                 
-                <div style="display: flex; gap: 0.5rem;">
+                <div class="filter-actions">
                     <button type="submit" class="btn btn-primary">Filter</button>
                     <?php if (!empty($search) || $cat_filter > 0 || $stock_filter === 'low_stock'): ?>
                         <a href="products.php" class="btn btn-secondary" title="Reset Filter">Reset</a>

@@ -101,10 +101,10 @@ if ($_SESSION['role'] === 'admin') {
 <?php endif; ?>
 
 <!-- Welcome Banner -->
-<div class="card" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%); color: white; border: none; margin-bottom: 2rem;">
-    <div class="card-body" style="padding: 1.5rem 2rem;">
-        <h1 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">Selamat Datang, <?= $_SESSION['name'] ?>!</h1>
-        <p style="opacity: 0.9; max-width: 700px; font-size: 0.9rem;">
+<div class="card welcome-banner">
+    <div class="card-body">
+        <h1>Selamat Datang, <?= $_SESSION['name'] ?>!</h1>
+        <p>
             Sistem YNZ membantu memantau stok, mencatat pengeluaran, memproses transaksi kasir, dan menganalisis produk demi keputusan bisnis yang tepat.
         </p>
     </div>

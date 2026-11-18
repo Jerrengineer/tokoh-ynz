@@ -6,6 +6,22 @@ require_once 'header.php';
 $categories_res = $conn->query("SELECT * FROM categories ORDER BY name ASC");
 ?>
 
+<!-- Mobile Tab Switcher (Visible on Mobile/Tablet <= 1024px) -->
+<div class="pos-mobile-nav">
+    <button type="button" class="pos-mobile-tab-btn active" id="posTabCatalog">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z"></path>
+        </svg>
+        Katalog Produk
+    </button>
+    <button type="button" class="pos-mobile-tab-btn" id="posTabCart">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+        </svg>
+        Keranjang (<span id="cartCountBadge">0</span>)
+    </button>
+</div>
+
 <div class="pos-container">
     <!-- Left Panel: Product Catalog -->
     <div class="pos-catalog-panel">
@@ -81,6 +97,20 @@ $categories_res = $conn->query("SELECT * FROM categories ORDER BY name ASC");
     </div>
 </div>
 
+<!-- Mobile Floating Cart Bar -->
+<div class="pos-mobile-floating-bar" id="posMobileFloatingBar">
+    <div class="floating-info">
+        <span class="floating-count" id="floatingCountText">0 Item</span>
+        <strong class="floating-total" id="floatingTotalText">Rp 0</strong>
+    </div>
+    <button type="button" class="btn btn-primary btn-sm" id="floatingCartBtn">
+        <span>Lihat Keranjang</span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+    </button>
+</div>
+
 <!-- Checkout Success Modal -->
 <div class="modal" id="successModal">
     <div class="modal-content">
@@ -152,6 +182,64 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalNewTxBtn = document.getElementById('modalNewTxBtn');
     const modalPrintBtn = document.getElementById('modalPrintBtn');
     
+    // Mobile Tab Elements
+    const posTabCatalog = document.getElementById('posTabCatalog');
+    const posTabCart = document.getElementById('posTabCart');
+    const cartCountBadge = document.getElementById('cartCountBadge');
+    const posCatalogPanel = document.querySelector('.pos-catalog-panel');
+    const posCartPanel = document.querySelector('.pos-cart-panel');
+    const posMobileFloatingBar = document.getElementById('posMobileFloatingBar');
+    const floatingCountText = document.getElementById('floatingCountText');
+    const floatingTotalText = document.getElementById('floatingTotalText');
+    const floatingCartBtn = document.getElementById('floatingCartBtn');
+    let activeMobileTab = 'catalog';
+
+    function switchMobileTab(tab) {
+        activeMobileTab = tab;
+        if (window.innerWidth <= 1024) {
+            if (tab === 'catalog') {
+                if (posTabCatalog) posTabCatalog.classList.add('active');
+                if (posTabCart) posTabCart.classList.remove('active');
+                if (posCatalogPanel) posCatalogPanel.classList.remove('hide-mobile');
+                if (posCartPanel) posCartPanel.classList.add('hide-mobile');
+                if (cart.length > 0 && posMobileFloatingBar) {
+                    posMobileFloatingBar.classList.add('visible');
+                }
+            } else {
+                if (posTabCart) posTabCart.classList.add('active');
+                if (posTabCatalog) posTabCatalog.classList.remove('active');
+                if (posCartPanel) posCartPanel.classList.remove('hide-mobile');
+                if (posCatalogPanel) posCatalogPanel.classList.add('hide-mobile');
+                if (posMobileFloatingBar) {
+                    posMobileFloatingBar.classList.remove('visible');
+                }
+            }
+        }
+    }
+
+    if (posTabCatalog && posTabCart) {
+        posTabCatalog.addEventListener('click', () => switchMobileTab('catalog'));
+        posTabCart.addEventListener('click', () => switchMobileTab('cart'));
+    }
+    if (floatingCartBtn) {
+        floatingCartBtn.addEventListener('click', () => switchMobileTab('cart'));
+    }
+
+    // Initialize mobile view
+    if (window.innerWidth <= 1024) {
+        switchMobileTab('catalog');
+    }
+
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 1024) {
+            if (posCatalogPanel) posCatalogPanel.classList.remove('hide-mobile');
+            if (posCartPanel) posCartPanel.classList.remove('hide-mobile');
+            if (posMobileFloatingBar) posMobileFloatingBar.classList.remove('visible');
+        } else {
+            switchMobileTab(activeMobileTab);
+        }
+    });
+
     // Load products initially
     loadProducts();
     
@@ -289,6 +377,10 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             totalPriceText.textContent = 'Rp 0';
             totalItemsText.textContent = '0';
+            if (cartCountBadge) cartCountBadge.textContent = '0';
+            if (floatingCountText) floatingCountText.textContent = '0 Item';
+            if (floatingTotalText) floatingTotalText.textContent = 'Rp 0';
+            if (posMobileFloatingBar) posMobileFloatingBar.classList.remove('visible');
             payAmountInput.disabled = true;
             payAmountInput.value = '';
             changeAmountText.textContent = 'Rp 0';
@@ -331,6 +423,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         totalPriceText.textContent = rupiah(totalPrice);
         totalItemsText.textContent = totalItems;
+        if (cartCountBadge) cartCountBadge.textContent = totalItems;
+        if (floatingCountText) floatingCountText.textContent = `${totalItems} Item`;
+        if (floatingTotalText) floatingTotalText.textContent = rupiah(totalPrice);
+        if (posMobileFloatingBar && activeMobileTab === 'catalog') {
+            posMobileFloatingBar.classList.add('visible');
+        }
         
         payAmountInput.disabled = false;
         

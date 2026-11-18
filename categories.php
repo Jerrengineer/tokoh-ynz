@@ -110,9 +110,9 @@ if (isset($_GET['edit'])) {
     </div>
 <?php endif; ?>
 
-<div class="grid grid-cols-3">
+<div class="grid grid-cols-3 layout-split">
     <!-- Category Form Panel (Add / Edit) -->
-    <div class="card" style="grid-column: span 1;">
+    <div class="card layout-form-card" style="align-self: start;">
         <div class="card-header">
             <h3 class="card-title"><?= $edit_category ? 'Edit Kategori' : 'Tambah Kategori Baru' ?></h3>
         </div>
@@ -129,7 +129,7 @@ if (isset($_GET['edit'])) {
                            placeholder="Contoh: Makanan Instan" required autocomplete="off">
                 </div>
                 
-                <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem;">
+                <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                     <button type="submit" name="<?= $edit_category ? 'edit_category' : 'add_category' ?>" class="btn btn-primary" style="flex-grow: 1;">
                         <?= $edit_category ? 'Perbarui Kategori' : 'Simpan Kategori' ?>
                     </button>
@@ -142,7 +142,7 @@ if (isset($_GET['edit'])) {
     </div>
     
     <!-- Category List Table Panel -->
-    <div class="card" style="grid-column: span 2;">
+    <div class="card layout-table-card">
         <div class="card-header">
             <h3 class="card-title">Daftar Kategori</h3>
         </div>

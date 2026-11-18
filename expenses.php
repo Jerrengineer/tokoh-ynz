@@ -138,9 +138,9 @@ $categories = [
     </div>
 <?php endif; ?>
 
-<div class="grid grid-cols-3">
+<div class="grid grid-cols-3 layout-split">
     <!-- Form Panel -->
-    <div class="card" style="grid-column: span 1; align-self: start;">
+    <div class="card layout-form-card" style="align-self: start;">
         <div class="card-header">
             <h3 class="card-title"><?= $edit_expense ? 'Edit Pengeluaran' : 'Catat Pengeluaran Baru' ?></h3>
         </div>
@@ -188,7 +188,7 @@ $categories = [
                               placeholder="Keterangan tambahan (optional)"><?= $edit_expense ? $edit_expense['description'] : '' ?></textarea>
                 </div>
                 
-                <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem;">
+                <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                     <button type="submit" name="<?= $edit_expense ? 'edit_expense' : 'add_expense' ?>" class="btn btn-primary" style="flex-grow: 1;">
                         <?= $edit_expense ? 'Perbarui Pengeluaran' : 'Simpan Pengeluaran' ?>
                     </button>
@@ -201,21 +201,21 @@ $categories = [
     </div>
     
     <!-- Table List Panel -->
-    <div class="card" style="grid-column: span 2;">
+    <div class="card layout-table-card">
         <div class="card-header">
             <h3 class="card-title">Daftar Pengeluaran Toko</h3>
         </div>
         <div class="card-body">
             <!-- Filter Form -->
-            <form action="expenses.php" method="GET" style="margin-bottom: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-end;">
-                <div class="form-group" style="margin-bottom: 0; flex-grow: 1; min-width: 150px;">
-                    <label for="search_filter" style="font-size: 0.75rem;">Cari Nama / Ket.</label>
+            <form action="expenses.php" method="GET" class="filter-form">
+                <div class="filter-group filter-grow">
+                    <label for="search_filter" class="filter-label">Cari Nama / Ket.</label>
                     <input type="text" id="search_filter" name="search" class="form-control" 
                            placeholder="Cari..." value="<?= $search ?>">
                 </div>
                 
-                <div class="form-group" style="margin-bottom: 0; width: 150px;">
-                    <label for="cat_filter" style="font-size: 0.75rem;">Kategori</label>
+                <div class="filter-group">
+                    <label for="cat_filter" class="filter-label">Kategori</label>
                     <select id="cat_filter" name="category" class="form-control">
                         <option value="">Semua Kategori</option>
                         <?php foreach ($categories as $cat): ?>
@@ -226,17 +226,17 @@ $categories = [
                     </select>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 0; width: 130px;">
-                    <label for="start_date" style="font-size: 0.75rem;">Dari Tanggal</label>
+                <div class="filter-group">
+                    <label for="start_date" class="filter-label">Dari Tanggal</label>
                     <input type="date" id="start_date" name="start_date" class="form-control" value="<?= $start_date ?>">
                 </div>
 
-                <div class="form-group" style="margin-bottom: 0; width: 130px;">
-                    <label for="end_date" style="font-size: 0.75rem;">Sampai Tanggal</label>
+                <div class="filter-group">
+                    <label for="end_date" class="filter-label">Sampai Tanggal</label>
                     <input type="date" id="end_date" name="end_date" class="form-control" value="<?= $end_date ?>">
                 </div>
                 
-                <div style="display: flex; gap: 0.5rem;">
+                <div class="filter-actions">
                     <button type="submit" class="btn btn-primary">Filter</button>
                     <?php if (!empty($search) || !empty($cat_filter) || !empty($start_date) || !empty($end_date)): ?>
                         <a href="expenses.php" class="btn btn-secondary" title="Reset Filter">Reset</a>

@@ -20,8 +20,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <!-- Sidebar -->
         <aside class="app-sidebar" id="sidebar">
             <div class="sidebar-brand">
-                <h3>Toko YNZ</h3>
-                <span><?= $_SESSION['role'] ?></span>
+                <div class="brand-info">
+                    <h3>Toko YNZ</h3>
+                    <span><?= $_SESSION['role'] ?></span>
+                </div>
+                <button class="sidebar-close" id="sidebarClose" aria-label="Tutup Menu">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
             </div>
             
             <div class="sidebar-user">
@@ -104,12 +111,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
         </aside>
         
+        <!-- Sidebar Backdrop (Mobile/Tablet) -->
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+        
         <!-- Main Content Wrapper -->
         <div class="app-main">
             <!-- Navbar -->
             <header class="app-navbar">
                 <div class="navbar-left">
-                    <button class="menu-toggle" id="menuToggle">
+                    <button class="menu-toggle" id="menuToggle" aria-label="Buka Menu Navigasi">
                         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
@@ -128,7 +138,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         <?php endif; ?>
                     </div>
                     
-                    <div class="text-muted" style="font-size: 0.85rem; font-weight: 500;">
+                    <div class="text-muted navbar-date">
                         <?= date('d M Y') ?>
                     </div>
                 </div>

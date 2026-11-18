@@ -109,6 +109,32 @@ $details_res = $conn->query($details_query);
             align-items: flex-end;
             gap: 0.5rem;
         }
+
+        @media (max-width: 640px) {
+            .receipt-container {
+                margin: 0.75rem auto;
+                padding: 1.25rem 1rem;
+                border-radius: var(--radius);
+            }
+            .receipt-header {
+                padding-bottom: 1rem;
+                margin-bottom: 1rem;
+            }
+            .receipt-header h2 {
+                font-size: 1.3rem !important;
+            }
+            .receipt-info-grid {
+                font-size: 0.8rem;
+                gap: 0.75rem;
+                margin-bottom: 1rem;
+            }
+            .receipt-total-section div {
+                width: 100% !important;
+            }
+            .receipt-ticket table {
+                font-size: 8.5pt;
+            }
+        }
     </style>
 </head>
 <body style="background-color: var(--light);">

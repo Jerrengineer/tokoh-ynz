@@ -87,24 +87,24 @@ $result = $conn->query($query);
     
     <div class="card-body">
         <!-- Filter Form -->
-        <form action="transactions.php" method="GET" style="margin-bottom: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-end;">
-            <div class="form-group" style="margin-bottom: 0; flex-grow: 1; min-width: 200px;">
-                <label for="search" style="font-size: 0.75rem;">No. Invoice</label>
+        <form action="transactions.php" method="GET" class="filter-form">
+            <div class="filter-group filter-grow">
+                <label for="search" class="filter-label">No. Invoice</label>
                 <input type="text" id="search" name="search" class="form-control" 
                        placeholder="Cari nomor invoice..." value="<?= $search ?>">
             </div>
             
-            <div class="form-group" style="margin-bottom: 0; width: 150px;">
-                <label for="start_date" style="font-size: 0.75rem;">Dari Tanggal</label>
+            <div class="filter-group">
+                <label for="start_date" class="filter-label">Dari Tanggal</label>
                 <input type="date" id="start_date" name="start_date" class="form-control" value="<?= $start_date ?>">
             </div>
             
-            <div class="form-group" style="margin-bottom: 0; width: 150px;">
-                <label for="end_date" style="font-size: 0.75rem;">Sampai Tanggal</label>
+            <div class="filter-group">
+                <label for="end_date" class="filter-label">Sampai Tanggal</label>
                 <input type="date" id="end_date" name="end_date" class="form-control" value="<?= $end_date ?>">
             </div>
             
-            <div style="display: flex; gap: 0.5rem;">
+            <div class="filter-actions">
                 <button type="submit" class="btn btn-primary">Filter</button>
                 <?php if (!empty($search) || !empty($start_date) || !empty($end_date)): ?>
                     <a href="transactions.php" class="btn btn-secondary" title="Reset Filter">Reset</a>
